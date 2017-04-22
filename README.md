@@ -9,9 +9,15 @@ To compile, you must have a recent version of the GNU Science Library (GSL) and 
 
 `Make`
 
+## Using BayesAss3-SNPs
+
+The program functions the same as the original with the following exceptions:
+* The input immanc formatted file must be specified using the -F command line option.  Previously this was not a requirement for declaring the input file on the command line.
+
 ## List of changes:
 
 2017-04-21: 
 * Parsing of command line options and setting of default values is now handled by the Boost Program_options library.  This has significantly reduced and simplified the code required for this purpose.
 * The help menu now displays default values for all program options.
 * Boolean switches operated by command line options were changed from int to bool
+* The program now has fewer global variables
