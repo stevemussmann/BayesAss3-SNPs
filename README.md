@@ -6,6 +6,7 @@ This is an enhancement of the code produced by the Rannala Research Group: http:
 Most changes will not be obvious to the average user.  However, the most important changes will now allow the user to input large SNP datasets that previously would have caused BayesAss to crash with a "segmentation fault" error.  The upper limit of 420 loci has been removed.
 
 To compile, you must have a recent version of the GNU Science Library (GSL) and the C++ Boost Libraries installed on your computer.  Download the source code, change directories into the BayesAss3-SNPs folder, and compile by issuing the command:
+
 `Make`
 
 ## List of changes:
