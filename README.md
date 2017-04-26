@@ -16,6 +16,9 @@ The program functions the same as the original with the following exceptions:
 
 ## List of changes:
 
+2017-04-26:
+* Converted the indiv struct into a custom class
+
 2017-04-21: 
 * Parsing of command line options and setting of default values is now handled by the Boost Program_options library.  This has significantly reduced and simplified the code required for this purpose.
 * The help menu now displays default values for all program options.
