@@ -28,14 +28,16 @@
 #include <getopt.h>
 #include <cmath>
 
+#include "indiv.h"
+
 using namespace std;
 
-const int MAXLOCI=5000;
+const int MAXLOCI=10000;
 const int MAXALLELE=300;
 const int MAXPOPLN=100;
 const int MAXINDIV=5000;
 const int MAXLINELENGTH=1000000;
-
+/*
 struct indiv
 {
 	int genotype[MAXLOCI][2];
@@ -45,19 +47,19 @@ struct indiv
 	unsigned int migrantAge;
 	double logL;
 };
-
+*/
 struct ancestryProbs
 {
 	double poplnPostProb[MAXPOPLN][3];
 };
 
 void printBanner(void);
-void readInputFile(indiv *sampleIndiv, unsigned int &noIndiv, unsigned int &noLoci, unsigned int &noPopln, unsigned int *noAlleles, string &infileName);
-void getEmpiricalAlleleFreqs(double ***alleleFreqs, indiv *sampleIndiv, unsigned int *noAlleles, unsigned int noPopln, unsigned int noLoci, unsigned int noIndiv, bool debug);
-void fillMigrantCounts(indiv *sampleIndiv, long int ***migrantCounts, unsigned int noIndiv, unsigned int noPopln);
+void readInputFile(Indiv **sampleIndiv, unsigned int &noIndiv, unsigned int &noLoci, unsigned int &noPopln, unsigned int *noAlleles, string &infileName);
+void getEmpiricalAlleleFreqs(double ***alleleFreqs, Indiv **sampleIndiv, unsigned int *noAlleles, unsigned int noPopln, unsigned int noLoci, unsigned int noIndiv, bool debug);
+void fillMigrantCounts(Indiv **sampleIndiv, long int ***migrantCounts, unsigned int noIndiv, unsigned int noPopln);
 double migCountLogProb(long int ***migrantCounts, double **migrationRates, unsigned int noPopln);
-double logLik(indiv Indiv, double ***alleleFreqs, double *FStat, unsigned int noLoci);
-double oneLocusLogLik(indiv Indiv, double ***alleleFreqs, double *FStat, int chosenLocus);
+double logLik(Indiv *Indiv, double ***alleleFreqs, double *FStat, unsigned int noLoci);
+double oneLocusLogLik(Indiv *Indiv, double ***alleleFreqs, double *FStat, int chosenLocus);
 // void proposeMigrantAncDrop(int &migrantPopln, int &migrantAge, int samplePopln, int noPopln, long int ***migrantCounts);
 void proposeMigrantAncDrop(unsigned int &migrantPopln, unsigned int &migrantAge, unsigned int samplePopln, int noPopln, long int ***migrantCounts);
 void proposeMigrantAncAdd(unsigned int &migrantPopAdd, unsigned int &migrantAgeAdd,unsigned int migrantPopDrop, unsigned int migrantAgeDrop, 
