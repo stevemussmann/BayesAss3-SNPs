@@ -9,6 +9,8 @@ To compile, you must have a recent version of the GNU Science Library (GSL) and 
 
 `Make`
 
+You may receive several warnings when compiling.  I am currently working through these to eliminate them.
+
 ## Using BayesAss3-SNPs
 
 The program functions the same as the original with the following exceptions:
