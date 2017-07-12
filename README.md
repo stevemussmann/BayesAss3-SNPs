@@ -16,6 +16,13 @@ The program functions the same as the original with the following exceptions:
 
 ## List of changes:
 
+2017-07-12:
+* Fixed a bug that was created when the Boost Program_options library was implemented for command line option handling - the "debug" and "trace" options had accidentally switched with one another.
+* Default values of "false" are now assigned to the command line boolean switches.
+* Further reduced the number of global variables
+* New required command line option added: --loci or -l must be used to specify the number of loci in the input file.
+* I now consider the program to be usable, but plan to make additional upgrades and modify code to fit my preferences.
+
 2017-04-26:
 * Converted the indiv struct into a custom class
 
