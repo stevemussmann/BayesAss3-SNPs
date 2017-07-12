@@ -13,6 +13,7 @@ To compile, you must have a recent version of the GNU Science Library (GSL) and 
 
 The program functions the same as the original with the following exceptions:
 * The input immanc formatted file must be specified using the -F command line option.  Previously this was not a requirement for declaring the input file on the command line.
+* The number of loci must now be specified using the -l command line option.  Previously this was not a requirement.
 
 ## List of changes:
 
@@ -21,6 +22,7 @@ The program functions the same as the original with the following exceptions:
 * Default values of "false" are now assigned to the command line boolean switches.
 * Further reduced the number of global variables
 * New required command line option added: --loci or -l must be used to specify the number of loci in the input file.
+* Data structures for which the amount of required memory is dependent upon the number of loci are now dynamically allocated.
 * I now consider the program to be usable, but plan to make additional upgrades and modify code to fit my preferences.
 
 2017-04-26:
