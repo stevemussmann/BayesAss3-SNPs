@@ -32,7 +32,7 @@
 
 using namespace std;
 
-const int MAXLOCI=10000;
+//const int MAXLOCI=10000;
 const int MAXALLELE=300;
 const int MAXPOPLN=100;
 const int MAXINDIV=5000;
@@ -54,7 +54,7 @@ struct ancestryProbs
 };
 
 void printBanner(void);
-void readInputFile(Indiv **sampleIndiv, unsigned int &noIndiv, unsigned int &noLoci, unsigned int &noPopln, unsigned int *noAlleles, string &infileName);
+void readInputFile(Indiv **sampleIndiv, unsigned int &noIndiv, unsigned int &noLoci, unsigned int &noPopln, unsigned int *noAlleles, string &infileName, int MAXLOCI);
 void getEmpiricalAlleleFreqs(double ***alleleFreqs, Indiv **sampleIndiv, unsigned int *noAlleles, unsigned int noPopln, unsigned int noLoci, unsigned int noIndiv, bool debug);
 void fillMigrantCounts(Indiv **sampleIndiv, long int ***migrantCounts, unsigned int noIndiv, unsigned int noPopln);
 double migCountLogProb(long int ***migrantCounts, double **migrationRates, unsigned int noPopln);
@@ -66,6 +66,6 @@ void proposeMigrantAncAdd(unsigned int &migrantPopAdd, unsigned int &migrantAgeA
 						  unsigned int samplePopln, int noPopln);
 void parseComLine(int argc, char **argv, string &infileName, int &seed, unsigned int &mciter, unsigned int &sampling, unsigned int &burnin, string &outfileName,
          double &deltaM, double &deltaA, double &deltaF, bool &verbose, bool& settings,
-         bool &genotypes, bool &trace, bool &debug, bool &nolikelihood);
+         bool &genotypes, bool &trace, bool &debug, bool &nolikelihood, int &MAXLOCI);
 
 #endif

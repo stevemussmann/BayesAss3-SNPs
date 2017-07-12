@@ -26,7 +26,7 @@ IndivMap poplnIDMap;
 IndivMap locusIDMap;
 
 // map between alleleID and allele name at each locus
-IndivMap alleleIDMap[MAXLOCI];
+std::vector<IndivMap> alleleIDMap;
 
 // debugging variables
 bool NOMIGRATEMCMC=false;
@@ -40,13 +40,6 @@ bool NOLIKELIHOOD=false;
 
 int main( int argc, char **argv )
 {
-
-	unsigned int noIndiv=0;
-	unsigned int noLoci=0;
-	unsigned int noPopln=0;
-	unsigned int noMissingGenotypes=0;
-	unsigned int noAlleles[MAXLOCI];
-
 	/* parse command line options */
 	string infileName;
 	int seed;
@@ -63,9 +56,18 @@ int main( int argc, char **argv )
 	bool trace;
 	bool debug;
 	bool nolikelihood;
+	int MAXLOCI;
 
-	parseComLine(argc, argv, infileName, seed, mciter, sampling, burnin, outfileName, deltaM, deltaA, deltaF, verbose, settings, genotypes, trace, debug, nolikelihood);
+	parseComLine(argc, argv, infileName, seed, mciter, sampling, burnin, outfileName, deltaM, deltaA, deltaF, verbose, settings, genotypes, trace, debug, nolikelihood, MAXLOCI);
 	/* get input file name */
+	
+	unsigned int noIndiv=0;
+	unsigned int noLoci=0;
+	unsigned int noPopln=0;
+	unsigned int noMissingGenotypes=0;
+	unsigned int noAlleles[MAXLOCI];
+
+	alleleIDMap.resize(MAXLOCI); //resize the alleleIDMap after getting MAXLOCI from command line
 
 	printBanner();
 	const char * outname = outfileName.c_str(); //convert string to const char
@@ -128,7 +130,7 @@ int main( int argc, char **argv )
 	std::cout << "Going to read input file" << std::endl;
 
 	// read input file
-	readInputFile(sampleIndiv, noIndiv, noLoci, noPopln, noAlleles, infileName);
+	readInputFile(sampleIndiv, noIndiv, noLoci, noPopln, noAlleles, infileName, MAXLOCI);
 	
 	std::cout << "Read input file" << std::endl;
 
@@ -1224,7 +1226,7 @@ void printBanner(void)
 	std::cout << "\n\n";
 }
 
-void readInputFile(Indiv **sampleIndiv, unsigned int &noIndiv, unsigned int &noLoci, unsigned int &noPopln, unsigned int *noAlleles, string &infileName)
+void readInputFile(Indiv **sampleIndiv, unsigned int &noIndiv, unsigned int &noLoci, unsigned int &noPopln, unsigned int *noAlleles, string &infileName, int MAXLOCI)
 {
 	struct oneLine {
 		std::string indiv;
@@ -1731,12 +1733,13 @@ void proposeMigrantAncAdd(unsigned int &migrantPopAdd, unsigned int &migrantAgeA
 /* parse command line options */
 void parseComLine(int argc, char **argv, string &infileName, int &seed, unsigned int &mciter, unsigned int &sampling, unsigned int &burnin, string &outfileName, 
 	double &deltaM, double &deltaA, double &deltaF, bool &verbose, bool& settings,
-	bool &genotypes, bool &trace, bool &debug, bool &nolikelihood)
+	bool &genotypes, bool &trace, bool &debug, bool &nolikelihood, int &MAXLOCI)
 {
 	opt::options_description desc("--- Option Descriptions ---");
 	desc.add_options()
 		("help,h", "Prints this help message.")
 		("file,F", opt::value<string>(&infileName)->required(), "Specify input file")
+		("loci,l", opt::value<int>(&MAXLOCI)->required(), "Specify number of loci in input file")
 		("seed,s", opt::value<int>(&seed)->default_value(10), "Specifies the random number seed")
 		("iterations,i", opt::value<unsigned int>(&mciter)->default_value(1000000), "Number of generations for mcmc")
 		("sampling,n", opt::value<unsigned int>(&sampling)->default_value(100), "Sampling interval for mcmc")
