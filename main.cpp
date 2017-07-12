@@ -1748,9 +1748,9 @@ void parseComLine(int argc, char **argv, string &infileName, int &seed, unsigned
 		("verbose,v", opt::bool_switch(&verbose), "Use verbose screen output")
 		("settings,u", opt::bool_switch(&settings), "Output options and parameter settings")
 		("genotypes,g", opt::bool_switch(&genotypes), "Output genotypes and migrant ancestries")
-		("debug,d", opt::bool_switch(&trace), "Debug")
-		("trace,t", opt::bool_switch(&debug), "Create a trace file to monitor convergence")
-		("nolikelihood,p", opt::bool_switch(&nolikelihood), "Fix likelihood to 1 and generate priors")
+		("debug,d", opt::bool_switch(&debug)->default_value(false), "Debug")
+		("trace,t", opt::bool_switch(&trace)->default_value(false), "Create a trace file to monitor convergence")
+		("nolikelihood,p", opt::bool_switch(&nolikelihood)->default_value(false), "Fix likelihood to 1 and generate priors")
 	;
 
 	opt::variables_map vm;
