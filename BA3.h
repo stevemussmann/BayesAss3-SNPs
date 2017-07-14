@@ -67,5 +67,5 @@ void proposeMigrantAncAdd(unsigned int &migrantPopAdd, unsigned int &migrantAgeA
 void parseComLine(int argc, char **argv, string &infileName, int &seed, unsigned int &mciter, unsigned int &sampling, unsigned int &burnin, string &outfileName,
          double &deltaM, double &deltaA, double &deltaF, bool &verbose, bool& settings,
          bool &genotypes, bool &trace, bool &debug, bool &nolikelihood, int &MAXLOCI);
-
+std::string remove_extension(const std::string& filename);
 #endif

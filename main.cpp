@@ -73,14 +73,19 @@ int main( int argc, char **argv )
 	const char * outname = outfileName.c_str(); //convert string to const char
 	mcmcout.open(outname, std::ios::out);
 
+	//create file names for printing trace and genotypes files
+	std::string prefix = remove_extension(infileName);
+	std::string tracefileName = prefix + ".trace.txt";
+	std::string indivfileName = prefix + ".indiv.txt";
+
 	if (trace == true)
 	{
-		tracefile.open("BA3trace.txt", std::ios::out);
+		tracefile.open(tracefileName.c_str(), std::ios::out);
 	}
 
 	if (genotypes == true)
 	{
-		indivout.open("BA3indiv.txt", std::ios::out);
+		indivout.open(indivfileName.c_str(), std::ios::out);
 	}
 
 	if (nolikelihood == true)
@@ -1785,4 +1790,14 @@ void parseComLine(int argc, char **argv, string &infileName, int &seed, unsigned
 
 		exit(EXIT_FAILURE);
 	}
+}
+
+std::string remove_extension(const std::string& filename)
+{
+	size_t lastdot = filename.find_last_of(".");
+	if (lastdot == std::string::npos)
+	{
+		return filename;
+	}
+	return filename.substr(0, lastdot); 
 }
