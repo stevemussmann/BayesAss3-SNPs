@@ -18,6 +18,8 @@ The program functions the same as the original with the following exceptions:
 * The number of loci must now be specified using the -l command line option.  Previously this was not a requirement.
 
 ## List of changes:
+2017-07-14:
+* The files BA3indiv.txt and BA3trace.txt are now named based upon the input file.  For example, running the program with a file named input.immanc would result in outputs named input.indiv.txt and input.trace.txt.
 
 2017-07-12:
 * Fixed a bug that was created when the Boost Program_options library was implemented for command line option handling - the "debug" and "trace" options had accidentally switched with one another.
