@@ -16,6 +16,8 @@ You may receive several warnings when compiling.  I am currently working through
 The program functions the same as the original with the following exceptions:
 * The input immanc formatted file must be specified using the -F command line option.  Previously this was not a requirement for declaring the input file on the command line.
 * The number of loci must now be specified using the -l command line option.  Previously this was not a requirement.
+* I have added a file converter that will convert the two-line per sample Structure file format to immanc format in my file_converters repository (https://github.com/smussmann82/file_converters).  In full disclosure, this converter has not been robustly tested.
+
 
 ## List of changes:
 2017-07-14:
