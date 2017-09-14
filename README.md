@@ -11,6 +11,9 @@ To compile, you must have a recent version of the GNU Science Library (GSL) and 
 
 You may receive several warnings when compiling.  I am currently working through these to eliminate them.
 
+### Important note for Mac users
+Compilation of this program will fail if GSL has been installed via Homebrew.  Please instead download the GSL source code from https://www.gnu.org/software/gsl/, compile, and install.  
+
 ## Using BayesAss3-SNPs
 
 The program functions the same as the original with the following exceptions:
