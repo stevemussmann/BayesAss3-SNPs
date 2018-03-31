@@ -14,6 +14,9 @@ You may receive several warnings when compiling.  I am currently working through
 ### Important note for Mac users
 Compilation of this program will fail if GSL has been installed via Homebrew.  Please instead download the GSL source code from https://www.gnu.org/software/gsl/, compile, and install.  
 
+### Important note about input files
+Prior to running the program, your input files should be filtered to remove any locus for which all data is missing in all individuals.  The program will crash with an error related to the GSL random number generator if this has not been done.
+
 ## Using BayesAss3-SNPs
 
 The program functions the same as the original with the following exceptions:
@@ -23,6 +26,9 @@ The program functions the same as the original with the following exceptions:
 
 
 ## List of changes:
+2018-03-30:
+* Added a warning message for when a data file contains no data for any individuals at one locus.
+
 2017-07-14:
 * The files BA3indiv.txt and BA3trace.txt are now named based upon the input file.  For example, running the program with a file named input.immanc would result in outputs named input.indiv.txt and input.trace.txt.
 
