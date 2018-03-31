@@ -167,26 +167,15 @@ int main( int argc, char **argv )
 		bool hasMissing=false;
 		for (unsigned int j=0; j<noLoci; j++)
 		{
-		  /*if((sampleIndiv[i]->genotype[j][0] == -1)||(sampleIndiv[i]->genotype[j][1] == -1))
-		     {
-				noMissingGenotypes+=1;
-				sampleIndiv[i]->missingGenotypes.push_back(j);
-				sampleIndiv[i]->genotype[j][0] = gsl_rng_uniform_int(r, noAlleles[j]);
-				sampleIndiv[i]->genotype[j][1] = gsl_rng_uniform_int(r, noAlleles[j]);
-				if (!hasMissing)
-				{
-					()missingData.push_back(i);
-					hasMissing=true;
-				}
-		     }*/
 		  if((sampleIndiv[i]->getAllele(j,0) == -1)||(sampleIndiv[i]->getAllele(j,1) == -1))
 		     {
+				if(noAlleles[j] == 0)
+				{
+					std::cout << "\nAt least one locus may contain no data for all samples in your input file.\n";
+				}
 				noMissingGenotypes+=1;
-				//sampleIndiv[i]->missingGenotypes.push_back(j);
 				sampleIndiv[i]->pushMissing(j);
-				//sampleIndiv[i]->genotype[j][0] = gsl_rng_uniform_int(r, noAlleles[j]);
 				sampleIndiv[i]->setAllele(j,0,gsl_rng_uniform_int(r,noAlleles[j]));
-				//sampleIndiv[i]->genotype[j][1] = gsl_rng_uniform_int(r, noAlleles[j]);
 				sampleIndiv[i]->setAllele(j,1,gsl_rng_uniform_int(r,noAlleles[j]));
 				if (!hasMissing)
 				{
