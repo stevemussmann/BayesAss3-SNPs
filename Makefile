@@ -11,3 +11,6 @@ BA3-SNPS : main.o indiv.o
 
 clean :
 	rm *.o BA3-SNPS
+
+install :
+	cp BA3-SNPS /usr/local/bin/.
