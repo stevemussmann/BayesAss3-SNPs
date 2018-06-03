@@ -9,7 +9,7 @@ Most changes will not be obvious to the average user.  However, the most importa
 
 To compile, you must have a recent version of the GNU Science Library (GSL) and the C++ Boost Libraries installed on your computer.  Installation of these libraries under Ubuntu is best handled through your system's package manager.  Both can be installed with the command:
 
-`sudo apt-get install libboost-dev libgsl-dev`
+`sudo apt-get install libgsl-dev libboost-dev libboost-program-options-dev`
 
 Download the source code, change directories into the BayesAss3-SNPs folder, and compile by issuing the command:
 
