@@ -1213,10 +1213,19 @@ if(!NOMISSINGDATA)
 void printBanner(void)
 {
 	std::cout << "\n\n";
-	std::cout << "                    BayesAss Edition 3.0.4 (BA3)                    \n";
-	std::cout << "                        Released: 09/28/2015                        \n";
+	std::cout << "                   BA3-SNPS Version 1.0 (BA3-SNPS)                  \n";
+	std::cout << "                        Released: 06/03/2018                        \n";
+	std::cout << "                          Steven Mussmann                           \n";
+	std::cout << "         Department of Biological Sciences at U. of Arkansas        \n";
+	std::cout << "\n\n";
+	std::cout << "                 Modified from BayesAss Version 3.0.4               \n";
 	std::cout << "                            Bruce Rannala                           \n";
 	std::cout << "           Department of Evolution and Ecology at UC Davis          \n";
+	std::cout << "\n\n";
+	std::cout << "Please cite: Wilson & Rannala (2003). Bayesian Inference of recent  \n";
+	std::cout << "migration rates using multilocus genotypes. Genetics 163:1177-1191. \n";
+	std::cout << "\n\n";
+	std::cout << "               BA3-SNPS citation is currently in prep.              \n";
 	std::cout << "\n\n";
 }
 
