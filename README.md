@@ -34,11 +34,17 @@ The program functions the same as the original with the following exceptions:
 * The number of loci must now be specified using the -l command line option.  Previously this was not a requirement.
 * I have added a file converter that will convert the two-line per sample Structure file format to immanc format in my file_converters repository (https://github.com/smussmann82/file_converters).  In full disclosure, this converter has not been robustly tested.
 
+## Citing BA3-SNPS
+
+All credit for the BayesAss algorithm goes to the original authors.  Please cite: G.A. Wilson and B. Rannala 2003. Bayesian inference of recent migration rates using multilocus genotypes. Genetics 163: 1177-1191.
+
+A manuscript is currently in preparation that will serve as a citation for BA3-SNPS.  Once published, it should be cited in addition to the Wilson and Rannala (2003) paper.
 
 ## List of changes:
 2018-06-03:
 * Added install command to makefile.
 * Updated installation instructions.
+* Updated program banner
 
 2018-03-30:
 * Added a warning message for when a data file contains no data for any individuals at one locus.
