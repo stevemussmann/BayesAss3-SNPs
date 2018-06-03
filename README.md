@@ -13,7 +13,11 @@ To compile, you must have a recent version of the GNU Science Library (GSL) and 
 
 Download the source code, change directories into the BayesAss3-SNPs folder, and compile by issuing the command:
 
-`Make`
+`make`
+
+To install the program to your path (/usr/local/bin), use the following command:
+
+`sudo make install`
 
 You may receive several warnings when compiling.  I am currently working through these to eliminate them.
 
@@ -32,6 +36,10 @@ The program functions the same as the original with the following exceptions:
 
 
 ## List of changes:
+2018-06-03:
+* Added install command to makefile.
+* Updated installation instructions.
+
 2018-03-30:
 * Added a warning message for when a data file contains no data for any individuals at one locus.
 
