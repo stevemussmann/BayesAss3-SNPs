@@ -36,6 +36,9 @@ The program functions the same as the original with the following exceptions:
 
 
 ## List of changes:
+2019-02-16:
+* Fixed casting int as char to eliminate compiler warning.
+
 2018-06-03:
 * Added install command to makefile.
 * Updated installation instructions.
