@@ -29,10 +29,11 @@ Prior to running the program, your input files should be filtered to remove any 
 
 ## Using BayesAss3-SNPs
 
-The program functions the same as the original with the following exceptions:
+The program functions similarly to the original code. Users should refer to the original BayesAss user manual, available from: https://github.com/brannala/BA3/blob/master/doc/BA3Manual.pdf. The instructions within the original documentation will help you run the program and understand the MCMC mixing parameters. There are, however, a few notable changes that users must be aware of to make BA3-SNPs function properly::
 * The input immanc formatted file must be specified using the -F command line option.  Previously this was not a requirement for declaring the input file on the command line.
 * The number of loci must now be specified using the -l command line option.  Previously this was not a requirement.
-* I have added a file converter that will convert the two-line per sample Structure file format to immanc format in my file_converters repository (https://github.com/smussmann82/file_converters).  In full disclosure, this converter has not been robustly tested.
+* Output files BA3indiv.txt and BA3trace.txt are now named based upon your input file name.  For example, running BA3-SNPs on a file named input.immanc would result in outputs named input.indiv.txt (=BA3indiv.txt) and input.trace.txt (=BA3trace.txt).
+* I have added a file converter that will convert the two-line per sample Structure file format to immanc format in my file_converters repository (https://github.com/stevemussmann/file_converters).  In full disclosure, this converter has not been robustly tested.
 
 ## Citing BA3-SNPS
 
