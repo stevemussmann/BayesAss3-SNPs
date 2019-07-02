@@ -5,6 +5,12 @@ This is an enhancement of the code produced by the Rannala Research Group: http:
 
 Most changes will not be obvious to the average user.  However, the most important changes will now allow the user to input large SNP datasets that previously would have caused BayesAss to crash with a "segmentation fault" error.  The upper limit of 420 loci has been removed.
 
+## Citing BA3-SNPS
+
+There are two publications you must cite for this program. Firstly, all credit for the BayesAss algorithm goes to the original authors.  Please cite: **G.A. Wilson and B. Rannala 2003. Bayesian inference of recent migration rates using multilocus genotypes. *Genetics* 163: 1177-1191.**
+
+Secondly, our manuscript for BA3-SNPs has been accepted in Methods in Ecology and Evolution.  Please also cite: **S.M. Mussmann, M.R. Douglas, T.K. Chafin, and M.E. Douglas 2019. BA3‐SNPs: Contemporary migration reconfigured in BayesAss for next‐generation sequence data. *Methods in Ecology and Evolution* https://doi.org/10.1111/2041-210X.13252.**
+
 ## Installation:
 
 To compile, you must have a recent version of the GNU Science Library (GSL) and the C++ Boost Libraries installed on your computer.  Installation of these libraries under Ubuntu is best handled through your system's package manager.  Both can be installed with the command:
@@ -34,12 +40,6 @@ The program functions similarly to the original code. Users should refer to the 
 * The number of loci must now be specified using the -l command line option.  Previously this was not a requirement.
 * Output files BA3indiv.txt and BA3trace.txt are now named based upon your input file name.  For example, running BA3-SNPs on a file named input.immanc would result in outputs named input.indiv.txt (=BA3indiv.txt) and input.trace.txt (=BA3trace.txt).
 * I have added a file converter that will convert the two-line per sample Structure file format to immanc format in my file_converters repository (https://github.com/stevemussmann/file_converters).  In full disclosure, this converter has not been robustly tested.
-
-## Citing BA3-SNPS
-
-All credit for the BayesAss algorithm goes to the original authors.  Please cite: G.A. Wilson and B. Rannala 2003. Bayesian inference of recent migration rates using multilocus genotypes. Genetics 163: 1177-1191.
-
-A manuscript is currently in preparation that will serve as a citation for BA3-SNPS.  Once published, it should be cited in addition to the Wilson and Rannala (2003) paper.
 
 ## List of changes:
 2019-02-16:
