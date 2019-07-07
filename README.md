@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/89026759.svg)](https://zenodo.org/badge/latestdoi/89026759)
+
 # BayesAss3-SNPs
 Modification of BayesAss 3.0.4 to allow handling of large SNP datasets generated via methods such as RADseq protocols.
 
