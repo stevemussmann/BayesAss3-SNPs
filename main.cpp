@@ -711,6 +711,7 @@ if(!NOMISSINGDATA)
 	// Print logL to trace file
 		if (i==1) {
 			tracefile << "State\t" << "LogProb\t";
+			tracefile.flush();
 		}
 		if(trace && ((i % sampling)==0))
 		{
@@ -721,6 +722,7 @@ if(!NOMISSINGDATA)
 			}
 			logLM = migCountLogProb(migrantCounts,migrationRates,noPopln);
 			tracefile << i << "\t" << logLM + logLG << "\t";
+			tracefile.flush();
 		}
 
 
@@ -806,6 +808,7 @@ if(!NOMISSINGDATA)
 				for (unsigned int k = 0; k < noPopln; k++)
 					tracefile << "m[" << l << "][" << k << "]\t";
 			tracefile << "\n";
+			tracefile.flush();
 		}
 		if(trace && ((i % sampling)==0))
 		{
@@ -813,6 +816,7 @@ if(!NOMISSINGDATA)
 				for (unsigned int k = 0; k < noPopln; k++)
 					tracefile << migrationRates[l][k] << "\t" ;
 			tracefile << "\n";
+			tracefile.flush();
 		}
 
 
@@ -1139,8 +1143,8 @@ if(!NOMISSINGDATA)
 void printBanner(void)
 {
 	std::cout << "\n\n";
-	std::cout << "                   BA3-SNPS Version 1.0 (BA3-SNPS)                  \n";
-	std::cout << "                        Released: 06/03/2018                        \n";
+	std::cout << "                   BA3-SNPS Version 1.1 (BA3-SNPS)                  \n";
+	std::cout << "                        Released: 07/11/2019                        \n";
 	std::cout << "                          Steven Mussmann                           \n";
 	std::cout << "         Department of Biological Sciences at U. of Arkansas        \n";
 	std::cout << "\n\n";
@@ -1151,7 +1155,9 @@ void printBanner(void)
 	std::cout << "Please cite: Wilson & Rannala (2003). Bayesian Inference of recent  \n";
 	std::cout << "migration rates using multilocus genotypes. Genetics 163:1177-1191. \n";
 	std::cout << "\n\n";
-	std::cout << "               BA3-SNPS citation is currently in prep.              \n";
+	std::cout << "Please also cite: Mussmann, Douglas, Chafin, & Douglas (2019). BA3- \n";
+	std::cout << "SNPs: Contemporary migration reconfigured in BayesAss for next-     \n";
+	std::cout << "generation sequence data. Methods in Ecology and Evolution.         \n";
 	std::cout << "\n\n";
 }
 
@@ -1171,193 +1177,101 @@ void readInputFile(Indiv **sampleIndiv, unsigned int &noIndiv, unsigned int &noL
 	aline.allele2=" ";
 	unsigned int indivIter=0, popIter=0, locIter=0, alleleIter[MAXLOCI];
 	unsigned int currIndivID, currPoplnID, currLocusID, currAllele1, currAllele2;
-    std::string inputLine=" ";
+
+	std::string inputLine=" ";
 
 	for(int k = 0; k < MAXINDIV-1; k++)
-	  for(int l = 1; l < MAXLOCI-1; l++)
-	    {
-	      //sampleIndiv[k]->genotype[l][0] = -2;
-	      //sampleIndiv[k]->genotype[l][1] = -2;
-		sampleIndiv[k]->setAllele(l,0,-2);
-		sampleIndiv[k]->setAllele(l,1,-2);
-	      }
+	{
+		for(int l = 1; l < MAXLOCI-1; l++)
+	 	{
+			//sampleIndiv[k]->genotype[l][0] = -2;
+			//sampleIndiv[k]->genotype[l][1] = -2;
+			sampleIndiv[k]->setAllele(l,0,-2);
+			sampleIndiv[k]->setAllele(l,1,-2);
+		}
+	}
+
 	std::cout << "Setting alleles" << std::endl;
+
 	for(int l = 0; l < MAXLOCI; l++)
+	{
 		alleleIter[l] = 0;
+	}
 
 	while(std::getline(mcmcin,inputLine))
 	{
 
-	int numspaces=0;
-	char lastChar='a', nextChar;
+		int numspaces=0;
+		char lastChar='a', nextChar;
 
-	// checks each character in the string
-	bool firstChar=false;
-	for (int ii=0; ii<int(inputLine.length()); ii++)
-	{
-	  if(!firstChar)
-	    {
-	      if(!isspace(inputLine.at(ii)))
-		firstChar=true;
-	    }
-	  else
-	    {
-	      nextChar = inputLine.at(ii); // gets a character
-	      if ((isspace(inputLine[ii]))&&!(isspace(inputLine[ii-1])))
-		numspaces++;
-	    }
-	}
-	if(!((numspaces==4)||(numspaces==5)))
-	  {
-	    cerr << "Error: Incorrect number of entries in line>> " << inputLine << " >>of input file " << infileName << "\n\n"; exit(1);
-	  }
-
-		if (inputLine.size()>1)
+		// checks each character in the string
+		bool firstChar=false;
+		for (int ii=0; ii<int(inputLine.length()); ii++)
 		{
-        std::istringstream ss(inputLine);
-		ss >> aline.indiv;
-		ss >> aline.samplePop;
-		ss >> aline.locus;
-		ss >> aline.allele1;
-		ss >> aline.allele2;
-		if (!ss)
-		{
-			cerr << "input file error: " << inputLine;
-			exit(1);
-		}
-		if (indivIter == 0)
-		{
-			indivIDMap.insert(std::pair<string, unsigned int>(aline.indiv, indivIter));
-			poplnIDMap.insert(std::pair<string, unsigned int>(aline.samplePop, popIter));
-			locusIDMap.insert(std::pair<string, unsigned int>(aline.locus, locIter));
-			currLocusID = locIter;
-			currIndivID = indivIter;
-			currPoplnID = popIter;
-
-			if(aline.allele1 != "0")
+			if(!firstChar)
 			{
-				alleleIDMap[locIter].insert(std::pair<string, unsigned int>(aline.allele1, alleleIter[locIter]));
-				currAllele1 = alleleIter[currLocusID];
-				alleleIter[currLocusID]++;
-			}
-			else currAllele1 = -1;
-
-			if(aline.allele2 != "0")
-			{
-				IndivMap::iterator iterAllele = alleleIDMap[currLocusID].begin();
-				iterAllele = alleleIDMap[currLocusID].find(aline.allele2);
-				if (iterAllele != alleleIDMap[currLocusID].end())
-					currAllele2 = iterAllele->second;
-				else
+				if(!isspace(inputLine.at(ii)))
 				{
-					alleleIDMap[currLocusID].insert(std::pair<string, unsigned int>(aline.allele2, alleleIter[currLocusID]));
-					currAllele2 = alleleIter[currLocusID];
-					alleleIter[currLocusID]++;
+					firstChar=true;
 				}
-			}
-			else currAllele2 = -1;
-
-			//sampleIndiv[currIndivID]->samplePopln = currPoplnID;
-			sampleIndiv[currIndivID]->setSamplePopln(currPoplnID);
-			indivIter++;
-			popIter++;
-			locIter++;
-		}
-		else
-		{
-			IndivMap::iterator iterIndiv = indivIDMap.begin();
-			iterIndiv = indivIDMap.find(aline.indiv);
-			if (iterIndiv != indivIDMap.end())
-			{
-				currIndivID = iterIndiv->second;
-				IndivMap::iterator iterLocus = locusIDMap.begin();
-				iterLocus = locusIDMap.find(aline.locus);
-				if (iterLocus != locusIDMap.end() )
-					currLocusID = iterLocus->second;
-				else
-				{
-					locusIDMap.insert(std::pair<string, unsigned int>(aline.locus,locIter));
-					currLocusID = locIter;
-					locIter++;
-				}
-				if(aline.allele1 != "0")
-				{
-					IndivMap::iterator iterAllele = alleleIDMap[currLocusID].begin();
-					iterAllele = alleleIDMap[currLocusID].find(aline.allele1);
-					if (iterAllele != alleleIDMap[currLocusID].end())
-						currAllele1 = iterAllele->second;
-					else
-					{
-						alleleIDMap[currLocusID].insert(std::pair<string, unsigned int>(aline.allele1, alleleIter[currLocusID]));
-						currAllele1 = alleleIter[currLocusID];
-						alleleIter[currLocusID]++;
-					}
-				}
-				else currAllele1 = -1;
-				if(aline.allele2 != "0")
-				{
-					IndivMap::iterator iterAllele = alleleIDMap[currLocusID].begin();
-					iterAllele = alleleIDMap[currLocusID].find(aline.allele2);
-					if (iterAllele != alleleIDMap[currLocusID].end())
-						currAllele2 = iterAllele->second;
-					else
-					{
-						alleleIDMap[currLocusID].insert(std::pair<string, unsigned int>(aline.allele2, alleleIter[currLocusID]));
-						currAllele2 = alleleIter[currLocusID];
-						alleleIter[currLocusID]++;
-					}
-				}
-				else currAllele2 = -1;
 			}
 			else
 			{
-				indivIDMap.insert(std::pair<string, unsigned int>(aline.indiv,indivIter));
+				nextChar = inputLine.at(ii); // gets a character
+				if ((isspace(inputLine[ii]))&&!(isspace(inputLine[ii-1])))
+				{
+					numspaces++;
+				}
+			}
+		}
+
+		if(!((numspaces==4)||(numspaces==5)))
+		{
+			cerr << "Error: Incorrect number of entries in line>> " << inputLine << " >>of input file " << infileName << "\n\n"; exit(1);
+		}
+
+		if (inputLine.size()>1)
+		{
+			std::istringstream ss(inputLine);
+			ss >> aline.indiv;
+			ss >> aline.samplePop;
+			ss >> aline.locus;
+			ss >> aline.allele1;
+			ss >> aline.allele2;
+			if (!ss)
+			{
+				cerr << "input file error: " << inputLine;
+				exit(1);
+			}
+			if (indivIter == 0)
+			{
+				indivIDMap.insert(std::pair<string, unsigned int>(aline.indiv, indivIter));
+				poplnIDMap.insert(std::pair<string, unsigned int>(aline.samplePop, popIter));
+				locusIDMap.insert(std::pair<string, unsigned int>(aline.locus, locIter));
+				currLocusID = locIter;
 				currIndivID = indivIter;
-				//sampleIndiv[currIndivID]->samplePopln = currPoplnID;
-				sampleIndiv[currIndivID]->setSamplePopln(currPoplnID);
-				indivIter++;
-				IndivMap::iterator iterPopln = poplnIDMap.begin();
-				iterPopln = poplnIDMap.find(aline.samplePop);
-				if (iterPopln != poplnIDMap.end() )
-					currPoplnID = iterPopln->second;
-				else
-				{
-					poplnIDMap.insert(std::pair<string, unsigned int>(aline.samplePop,popIter));
-					currPoplnID = popIter;
-					//sampleIndiv[currIndivID]->samplePopln = currPoplnID;
-					sampleIndiv[currIndivID]->setSamplePopln(currPoplnID);
-					popIter++;
-				}
-				IndivMap::iterator iterLocus = locusIDMap.begin();
-				iterLocus = locusIDMap.find(aline.locus);
-				if (iterLocus != locusIDMap.end() )
-					currLocusID = iterLocus->second;
-				else
-				{
-					locusIDMap.insert(std::pair<string, unsigned int>(aline.locus,locIter));
-					currLocusID = locIter;
-					locIter++;
-				}
+				std::cout << aline.samplePop << "\t" << popIter << std::endl;
+				currPoplnID = popIter;
+
 				if(aline.allele1 != "0")
 				{
-					IndivMap::iterator iterAllele = alleleIDMap[currLocusID].begin();
-					iterAllele = alleleIDMap[currLocusID].find(aline.allele1);
-					if (iterAllele != alleleIDMap[currLocusID].end())
-						currAllele1 = iterAllele->second;
-					else
-					{
-						alleleIDMap[currLocusID].insert(std::pair<string, unsigned int>(aline.allele1, alleleIter[currLocusID]));
-						currAllele1 = alleleIter[currLocusID];
-						alleleIter[currLocusID]++;
-					}
+					alleleIDMap[locIter].insert(std::pair<string, unsigned int>(aline.allele1, alleleIter[locIter]));
+					currAllele1 = alleleIter[currLocusID];
+					alleleIter[currLocusID]++;
 				}
-				else currAllele1 = -1;
+				else
+				{
+					currAllele1 = -1;
+				}
+
 				if(aline.allele2 != "0")
 				{
 					IndivMap::iterator iterAllele = alleleIDMap[currLocusID].begin();
 					iterAllele = alleleIDMap[currLocusID].find(aline.allele2);
 					if (iterAllele != alleleIDMap[currLocusID].end())
+					{
 						currAllele2 = iterAllele->second;
+					}
 					else
 					{
 						alleleIDMap[currLocusID].insert(std::pair<string, unsigned int>(aline.allele2, alleleIter[currLocusID]));
@@ -1365,15 +1279,146 @@ void readInputFile(Indiv **sampleIndiv, unsigned int &noIndiv, unsigned int &noL
 						alleleIter[currLocusID]++;
 					}
 				}
-				else currAllele2 = -1;
-			}
+				else 
+				{
+					currAllele2 = -1;
+				}
 
+				sampleIndiv[currIndivID]->setSamplePopln(currPoplnID);
+				indivIter++;
+				popIter++;
+				locIter++;
+			}
+			else
+			{
+				IndivMap::iterator iterIndiv = indivIDMap.begin();
+				iterIndiv = indivIDMap.find(aline.indiv);
+				if (iterIndiv != indivIDMap.end())
+				{
+					currIndivID = iterIndiv->second;
+					IndivMap::iterator iterLocus = locusIDMap.begin();
+					iterLocus = locusIDMap.find(aline.locus);
+					if (iterLocus != locusIDMap.end() )
+					{
+						currLocusID = iterLocus->second;
+					}
+					else
+					{
+						locusIDMap.insert(std::pair<string, unsigned int>(aline.locus,locIter));
+						currLocusID = locIter;
+						locIter++;
+					}
+					if(aline.allele1 != "0")
+					{
+						IndivMap::iterator iterAllele = alleleIDMap[currLocusID].begin();
+						iterAllele = alleleIDMap[currLocusID].find(aline.allele1);
+						if (iterAllele != alleleIDMap[currLocusID].end())
+						{
+							currAllele1 = iterAllele->second;
+						}
+						else
+						{
+							alleleIDMap[currLocusID].insert(std::pair<string, unsigned int>(aline.allele1, alleleIter[currLocusID]));
+							currAllele1 = alleleIter[currLocusID];
+							alleleIter[currLocusID]++;
+						}
+					}
+					else
+					{
+						currAllele1 = -1;
+					}
+					if(aline.allele2 != "0")
+					{
+						IndivMap::iterator iterAllele = alleleIDMap[currLocusID].begin();
+						iterAllele = alleleIDMap[currLocusID].find(aline.allele2);
+						if (iterAllele != alleleIDMap[currLocusID].end())
+						{
+							currAllele2 = iterAllele->second;
+						}
+						else
+						{
+							alleleIDMap[currLocusID].insert(std::pair<string, unsigned int>(aline.allele2, alleleIter[currLocusID]));
+							currAllele2 = alleleIter[currLocusID];
+							alleleIter[currLocusID]++;
+						}
+					}
+					else 
+					{
+						currAllele2 = -1;
+					}
+				}
+				else
+				{
+					indivIDMap.insert(std::pair<string, unsigned int>(aline.indiv,indivIter));
+					currIndivID = indivIter;
+					indivIter++;
+					IndivMap::iterator iterPopln = poplnIDMap.begin();
+					iterPopln = poplnIDMap.find(aline.samplePop);
+					if (iterPopln != poplnIDMap.end() )
+					{
+						currPoplnID = iterPopln->second;
+						sampleIndiv[currIndivID]->setSamplePopln(currPoplnID);
+					}
+					else
+					{
+						poplnIDMap.insert(std::pair<string, unsigned int>(aline.samplePop,popIter));
+						currPoplnID = popIter;
+						sampleIndiv[currIndivID]->setSamplePopln(currPoplnID);
+						popIter++;
+					}
+					IndivMap::iterator iterLocus = locusIDMap.begin();
+					iterLocus = locusIDMap.find(aline.locus);
+					if (iterLocus != locusIDMap.end() )
+					{
+						currLocusID = iterLocus->second;
+					}
+					else
+					{
+						locusIDMap.insert(std::pair<string, unsigned int>(aline.locus,locIter));
+						currLocusID = locIter;
+						locIter++;
+					}
+					if(aline.allele1 != "0")
+					{
+						IndivMap::iterator iterAllele = alleleIDMap[currLocusID].begin();
+						iterAllele = alleleIDMap[currLocusID].find(aline.allele1);
+						if (iterAllele != alleleIDMap[currLocusID].end())
+						{
+							currAllele1 = iterAllele->second;
+						}
+						else
+						{
+							alleleIDMap[currLocusID].insert(std::pair<string, unsigned int>(aline.allele1, alleleIter[currLocusID]));
+							currAllele1 = alleleIter[currLocusID];
+							alleleIter[currLocusID]++;
+						}
+					}
+					else 
+					{
+						currAllele1 = -1;
+					}
+					if(aline.allele2 != "0")
+					{
+						IndivMap::iterator iterAllele = alleleIDMap[currLocusID].begin();
+						iterAllele = alleleIDMap[currLocusID].find(aline.allele2);
+						if (iterAllele != alleleIDMap[currLocusID].end())
+							currAllele2 = iterAllele->second;
+						else
+						{
+							alleleIDMap[currLocusID].insert(std::pair<string, unsigned int>(aline.allele2, alleleIter[currLocusID]));
+							currAllele2 = alleleIter[currLocusID];
+							alleleIter[currLocusID]++;
+						}
+					}
+					else currAllele2 = -1;
+				}
+	
+			}
 		}
-	}
-	//sampleIndiv[currIndivID]->genotype[currLocusID][0] = currAllele1;
-	//sampleIndiv[currIndivID]->genotype[currLocusID][1] = currAllele2;
-	sampleIndiv[currIndivID]->setAllele(currLocusID,0,currAllele1);
-	sampleIndiv[currIndivID]->setAllele(currLocusID,1,currAllele2);
+		//sampleIndiv[currIndivID]->genotype[currLocusID][0] = currAllele1;
+		//sampleIndiv[currIndivID]->genotype[currLocusID][1] = currAllele2;
+		sampleIndiv[currIndivID]->setAllele(currLocusID,0,currAllele1);
+		sampleIndiv[currIndivID]->setAllele(currLocusID,1,currAllele2);
 	}
 	noIndiv = indivIter--;
 	noPopln = popIter--;
@@ -1407,7 +1452,7 @@ void readInputFile(Indiv **sampleIndiv, unsigned int &noIndiv, unsigned int &noL
 
 	      }
 
-
+	//exit(0);
 }
 
 //void getEmpiricalAlleleFreqs(double ***alleleFreqs, indiv *sampleIndiv, unsigned int *noAlleles, unsigned int noPopln, unsigned int noLoci, unsigned int noIndiv, bool debug)
