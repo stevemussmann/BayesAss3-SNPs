@@ -44,6 +44,13 @@ The program functions similarly to the original code. Users should refer to the 
 * I have added a file converter that will convert the two-line per sample Structure file format to immanc format in my file_converters repository (https://github.com/stevemussmann/file_converters).  In full disclosure, this converter has not been robustly tested.
 
 ## List of changes:
+2019-07-11:
+* Updated version number to 1.1.
+* Fixed immanc file parsing bug in which individuals would sometimes be assigned the incorrect population. This occurred when all samples from the same population did not occur consecutively within the immanc file. This bug carried over from the original BA3 source code, so you should repeat any analyses you conducted in any version of BayesAss if your input immanc file was not sorted according to population.
+* Added buffer flush when printing to MCMC trace file. The trace file should update more regularly now.
+* Fixed indenting in file parsing source code.
+* Updated program banner.
+
 2019-02-16:
 * Fixed casting int as char to eliminate compiler warning.
 
