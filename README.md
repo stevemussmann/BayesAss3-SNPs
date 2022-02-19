@@ -43,7 +43,17 @@ The program functions similarly to the original code. Users should refer to the 
 * Output files BA3indiv.txt and BA3trace.txt are now named based upon your input file name.  For example, running BA3-SNPs on a file named input.immanc would result in outputs named input.indiv.txt (=BA3indiv.txt) and input.trace.txt (=BA3trace.txt).
 * I have added a file converter that will convert the two-line per sample Structure file format to immanc format in my file_converters repository (https://github.com/stevemussmann/file_converters).  In full disclosure, this converter has not been robustly tested.
 
+## Scripts
+
+I provide a script that will count the number of loci present in .immanc formatted files. Syntax is as follows:
+```
+./countLociImmanc.sh -f filename
+```
+
 ## List of changes:
+2022-02-19:
+* Added countLociImmanc.sh which will report the number of loci present in an immanc-formatted file.
+
 2019-07-11:
 * Updated version number to 1.1.
 * Fixed immanc file parsing bug in which individuals would sometimes be assigned the incorrect population. This occurred when all samples from the same population did not occur consecutively within the immanc file. This bug carried over from the original BA3 source code, so you should repeat any analyses you conducted in any version of BayesAss if your input immanc file was not sorted according to population.
