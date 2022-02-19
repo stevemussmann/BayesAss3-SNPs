@@ -13,9 +13,9 @@ There are two publications you must cite for this program. Firstly, all credit f
 
 Secondly, our manuscript for BA3-SNPs has been accepted in Methods in Ecology and Evolution.  Please also cite: **S.M. Mussmann, M.R. Douglas, T.K. Chafin, and M.E. Douglas 2019. BA3‐SNPs: Contemporary migration reconfigured in BayesAss for next‐generation sequence data. *Methods in Ecology and Evolution* https://doi.org/10.1111/2041-210X.13252.**
 
-## Installation:
+## Manual Installation:
 
-To compile, you must have a recent version of the GNU Science Library (GSL) and the C++ Boost Libraries installed on your computer.  Installation of these libraries under Ubuntu is best handled through your system's package manager.  Both can be installed with the command:
+If you would prefer to install via Docker container, skip to the next section. If you would prefer to install the program manually, then keep reading. To compile, you must have a recent version of the GNU Science Library (GSL) and the C++ Boost Libraries installed on your computer.  Installation of these libraries under Ubuntu is best handled through your system's package manager.  Both can be installed with the command:
 
 `sudo apt-get install libgsl-dev libboost-dev libboost-program-options-dev`
 
@@ -32,20 +32,37 @@ You may receive several warnings when compiling.  I am currently working through
 ### Important note for Mac users
 Compilation of this program will fail if GSL has been installed via Homebrew.  Please instead download the GSL source code from https://www.gnu.org/software/gsl/, compile, and install.  
 
-### Important note about input files
-Prior to running the program, your input files should be filtered to remove any locus for which all data is missing in all individuals.  The program will crash with an error related to the GSL random number generator if this has not been done.
+## Docker Installation:
+
+I now provide a Docker container to streamline the installation process. If you want to avoid potential issues with dependencies or manual setup, then this is now the recommended method for running the program. To get started, pull the Docker image using the following command:
+
+```
+docker pull mussmann/ba3snps:1.0
+```
+
+Launch the container by placing the "runDocker.sh" script in the folder from which you want to run the container, then executing it as shown below. This script can be found in the "Docker" folder of the github repository provided above.
+
+```
+./runDocker.sh
+```
+
+This script creates a folder named "data" in the directory on your machine from which you launched the Docker container. You can put any input files for ba3snps into this folder and they will be accessible inside the container (in /app/data/). Any outputs written to this folder and any of its subdirectories will still be accessible after you exit the container. If you write any output to other locations inside the container, they will be lost upon exit. In addition to BA3-SNPs, the countLociImmanc.sh script, [BA3-SNPS-autotune](https://github.com/stevemussmann/BA3-SNPS-autotune), and file conversion scripts ([stacksStr2Immanc.pl and pyradStr2Immanc.pl](https://github.com/stevemussmann/file_converters)) are also installed in your $PATH in this container. 
 
 ## Using BayesAss3-SNPs
 
-The program functions similarly to the original code. Users should refer to the original BayesAss user manual, available from: https://github.com/brannala/BA3/blob/master/doc/BA3Manual.pdf. The instructions within the original documentation will help you run the program and understand the MCMC mixing parameters. There are, however, a few notable changes that users must be aware of to make BA3-SNPs function properly::
+The program functions similarly to the original code. Users should refer to the original BayesAss user manual, available from: https://github.com/brannala/BA3/blob/master/doc/BA3Manual.pdf. The instructions within the original documentation will help you run the program and understand the MCMC mixing parameters. There are, however, a few notable changes that users must be aware of to make BA3-SNPs function properly:
 * The input immanc formatted file must be specified using the -F command line option.  Previously this was not a requirement for declaring the input file on the command line.
 * The number of loci must now be specified using the -l command line option.  Previously this was not a requirement.
 * Output files BA3indiv.txt and BA3trace.txt are now named based upon your input file name.  For example, running BA3-SNPs on a file named input.immanc would result in outputs named input.indiv.txt (=BA3indiv.txt) and input.trace.txt (=BA3trace.txt).
-* I have added a file converter that will convert the two-line per sample Structure file format to immanc format in my file_converters repository (https://github.com/stevemussmann/file_converters).  In full disclosure, this converter has not been robustly tested.
 
-## Scripts
 
-I now provide a script that will count the number of loci present in .immanc formatted files. Syntax is as follows:
+### Important note about input files
+Prior to running the program, your input files should be filtered to remove any locus for which all data is missing in all individuals.  The program will crash with an error related to the GSL random number generator if this has not been done.
+
+### Helper scripts
+I have added file converters that will convert the two-line per sample Structure file format to immanc format in my file_converters repository (https://github.com/stevemussmann/file_converters).  There are separate file converters based upon popular RAD data assembly pipelines (Stacks and pyRAD). 
+
+I now also provide a script that will count the number of loci present in .immanc formatted files. Syntax is as follows:
 ```
 ./countLociImmanc.sh -f filename
 ```
