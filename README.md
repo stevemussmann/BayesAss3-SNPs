@@ -45,7 +45,7 @@ The program functions similarly to the original code. Users should refer to the 
 
 ## Scripts
 
-I provide a script that will count the number of loci present in .immanc formatted files. Syntax is as follows:
+I now provide a script that will count the number of loci present in .immanc formatted files. Syntax is as follows:
 ```
 ./countLociImmanc.sh -f filename
 ```
@@ -53,6 +53,7 @@ I provide a script that will count the number of loci present in .immanc formatt
 ## List of changes:
 2022-02-19:
 * Added countLociImmanc.sh which will report the number of loci present in an immanc-formatted file.
+* Created Docker container for executing BA3-SNPS, BA3-SNPS-autotune.py, countLociImmanc.sh, stacksStr2immanc.pl, and pyradStr2immanc.pl
 
 2019-07-11:
 * Updated version number to 1.1.
